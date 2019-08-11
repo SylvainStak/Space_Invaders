@@ -142,7 +142,21 @@ class Game:
                 i.changeSprite()
             
 
-            self.SpriteSwapCounter = 0  
+            self.SpriteSwapCounter = 0 
+
+
+    def checkWin(self):
+         if(len(self.Bot1Invaders) == 0 and
+            len(self.Bot2Invaders) == 0 and
+            len(self.Mid1Invaders) == 0 and
+            len(self.Mid2Invaders) == 0 and
+            len(self.TopInvaders) == 0):           
+
+            Tk().wm_withdraw()
+            messagebox.showinfo('You Win', 'YOU WIN!!!\nBullets fired: ' + str(len(self.Bullets)))
+            del self.Bullets[:]
+            self.setupInvaders()
+            self.MoveRefX = 400
 
     def checkGameOver(self):
         Bot1Out = False
@@ -183,6 +197,7 @@ class Game:
            messagebox.showinfo('Game Over', 'GAME OVER!!!\n\nInvaders Left: ' + str(invadersLeft) + '\nBullets fired: ' + str(len(self.Bullets)))
            self.setupInvaders()
            del self.Bullets[:]
+           self.MoveRefX = 400
     
     def checkCollision(self):
         Bot1_del = []
@@ -286,6 +301,7 @@ class Game:
             self.drawInvaders()
             self.drawPlayer()                        
             self.checkGameOver()
+            self.checkWin()
             self.checkCollision()
             pygame.display.update()
             self.FPS_CLOCK.tick(self.FPS_RATE)

@@ -21,5 +21,4 @@ Once you enter the folder of the game, type: "<strong>python main.py</strong>", 
 Either win or loose, at the end of the round it will show up a small window with the final results "Win" or "Loose" and the number of bullets fired in that particular round
 
 # TO-DO
-* Add Joystick control (I will implement this when everything is done, dont you think it would be funny to play this with a joystick?)
-* Check for Wins
+* Add Joystick control
