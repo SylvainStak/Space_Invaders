@@ -64,13 +64,23 @@ class Game:
         self.DISPLAYSURF.blit(self.Player.Sprite, (self.Player.X, self.Player.Y))
 
     def drawInvaders(self):
-        for i in range(0, 9):
-            self.DISPLAYSURF.blit(self.Bot1Invaders[i].actual_sprite, (self.Bot1Invaders[i].X, self.Bot1Invaders[i].Y))
-            self.DISPLAYSURF.blit(self.Bot2Invaders[i].actual_sprite, (self.Bot2Invaders[i].X, self.Bot2Invaders[i].Y))
-            self.DISPLAYSURF.blit(self.Mid1Invaders[i].actual_sprite, (self.Mid1Invaders[i].X, self.Mid1Invaders[i].Y))
-            self.DISPLAYSURF.blit(self.Mid2Invaders[i].actual_sprite, (self.Mid2Invaders[i].X, self.Mid2Invaders[i].Y))
-            self.DISPLAYSURF.blit(self.TopInvaders[i].actual_sprite, (self.TopInvaders[i].X, self.TopInvaders[i].Y))
-    
+        for i in self.Bot1Invaders:
+            self.DISPLAYSURF.blit(i.actual_sprite, (i.X, i.Y))
+        
+        for i in self.Bot2Invaders:
+            self.DISPLAYSURF.blit(i.actual_sprite, (i.X, i.Y))
+
+        for i in self.Mid1Invaders:
+            self.DISPLAYSURF.blit(i.actual_sprite, (i.X, i.Y))
+
+        for i in self.Mid2Invaders:
+            self.DISPLAYSURF.blit(i.actual_sprite, (i.X, i.Y))
+
+        for i in self.TopInvaders:
+            self.DISPLAYSURF.blit(i.actual_sprite, (i.X, i.Y))
+        
+            
+        
     def drawBullets(self):
         for i in range(0, len(self.Bullets)):
             if self.Bullets[i].Y > 0:
@@ -79,12 +89,21 @@ class Game:
     def moveInvaders(self):
         self.MoveRefX += self.MoveRefSpeed        
 
-        for i in range(0, 9):
-            self.Bot1Invaders[i].move(self.MoveRefX)
-            self.Bot2Invaders[i].move(self.MoveRefX)
-            self.Mid1Invaders[i].move(self.MoveRefX)
-            self.Mid2Invaders[i].move(self.MoveRefX)
-            self.TopInvaders[i].move(self.MoveRefX)
+
+        for i in self.Bot1Invaders:
+            i.move(self.MoveRefX)
+
+        for i in self.Bot2Invaders:
+            i.move(self.MoveRefX)
+
+        for i in self.Mid1Invaders:
+            i.move(self.MoveRefX)
+
+        for i in self.Mid2Invaders:
+            i.move(self.MoveRefX)
+
+        for i in self.TopInvaders:
+            i.move(self.MoveRefX)
 
         if self.MoveRefX > 600:
             self.MoveRefX = 600
@@ -95,7 +114,8 @@ class Game:
     
     def moveBullets(self):
         for i in self.Bullets:
-            i.move()
+            if i.Y > -3:
+                i.move()
 
     
     def setupInvaders(self):
@@ -109,37 +129,123 @@ class Game:
     def swapInvaderSprite(self):
         self.SpriteSwapCounter += self.SpriteSwapCounterJump
 
-        if self.SpriteSwapCounter == 50:             
-            for i in range(0, 9):
-                self.Bot1Invaders[i].changeSprite()
-                self.Bot2Invaders[i].changeSprite()
-                self.Mid1Invaders[i].changeSprite()
-                self.Mid2Invaders[i].changeSprite()
-                self.TopInvaders[i].changeSprite()
+        if self.SpriteSwapCounter == 50:    
+            for i in self.Bot1Invaders:
+                i.changeSprite()
+            for i in self.Bot2Invaders:
+                i.changeSprite()
+            for i in self.Mid1Invaders:
+                i.changeSprite()
+            for i in self.Mid2Invaders:
+                i.changeSprite()
+            for i in self.TopInvaders:
+                i.changeSprite()
+            
 
             self.SpriteSwapCounter = 0  
 
     def checkGameOver(self):
-        for i in range(0, 9):
-            if(self.Bot1Invaders[i].Y > 550 or
-               self.Bot2Invaders[i].Y > 550 or
-               self.Mid1Invaders[i].Y > 550 or
-               self.Mid2Invaders[i].Y > 550 or
-               self.TopInvaders[i].Y > 550):
-               invadersLeft = len(self.Bot1Invaders) + len(self.Bot2Invaders) + len(self.Mid1Invaders) + len(self.Mid2Invaders) + len(self.TopInvaders)
-               del self.Bot1Invaders[:]
-               del self.Bot2Invaders[:]
-               del self.Mid1Invaders[:]
-               del self.Mid2Invaders[:]
-               del self.TopInvaders[:]
-               self.MoveRefX = 400
-               Tk().wm_withdraw()
-               messagebox.showinfo('Game Over', 'GAME OVER!!!\n\nInvaders Left: ' + str(invadersLeft) + '\nBullets fired: ' + str(len(self.Bullets)))
-               self.setupInvaders()
-               del self.Bullets[:]
+        Bot1Out = False
+        Bot2Out = False
+        Mid1Out = False
+        Mid2Out = False
+        TopOut = False
 
+        for i in self.Bot1Invaders:
+            if i.Y > 550:
+                Bot1Out = True
+        for i in self.Bot2Invaders:
+            if i.Y > 550:
+                Bot2Out = True
+        for i in self.Mid1Invaders:
+            if i.Y > 550:
+                Mid1Out = True
+        for i in self.Mid2Invaders:
+            if i.Y > 550:
+                Mid2Out = True
+        for i in self.TopInvaders:
+            if i.Y > 550:
+                TopOut = True
 
-        
+        if(Bot1Out == True or
+           Bot2Out == True or
+           Mid1Out == True or
+           Mid2Out == True or
+           TopOut == True):
+           invadersLeft = len(self.Bot1Invaders) + len(self.Bot2Invaders) + len(self.Mid1Invaders) + len(self.Mid2Invaders) + len(self.TopInvaders)
+           del self.Bot1Invaders[:]
+           del self.Bot2Invaders[:]
+           del self.Mid1Invaders[:]
+           del self.Mid2Invaders[:]
+           del self.TopInvaders[:]
+           self.MoveRefX = 400
+           Tk().wm_withdraw()
+           messagebox.showinfo('Game Over', 'GAME OVER!!!\n\nInvaders Left: ' + str(invadersLeft) + '\nBullets fired: ' + str(len(self.Bullets)))
+           self.setupInvaders()
+           del self.Bullets[:]
+    
+    def checkCollision(self):
+        Bot1_del = []
+        Bot2_del = []
+        Mid1_del = []
+        Mid2_del = []
+        Top_del = []
+
+        if len(self.Bullets) > 0:
+            if len(self.Bot1Invaders) > 0:
+                for i in range(0, len(self.Bot1Invaders)):
+                    for j in range(0, len(self.Bullets)):
+                        if self.Bullets[j].X >= self.Bot1Invaders[i].X and self.Bullets[j].X <= self.Bot1Invaders[i].X + 24:
+                            if self.Bullets[j].Y >= self.Bot1Invaders[i].Y and self.Bullets[j].Y <= self.Bot1Invaders[i].Y + 24:
+                                Bot1_del.append(i)
+                                self.Bullets[j].Y = 0
+
+            for i in Bot1_del:
+                del self.Bot1Invaders[i]
+
+            if len(self.Bot2Invaders) > 0:
+                for i in range(0, len(self.Bot2Invaders)):
+                    for j in range(0, len(self.Bullets)):
+                        if self.Bullets[j].X >= self.Bot2Invaders[i].X and self.Bullets[j].X <= self.Bot2Invaders[i].X + 24:
+                            if self.Bullets[j].Y >= self.Bot2Invaders[i].Y and self.Bullets[j].Y <= self.Bot2Invaders[i].Y + 24:
+                                Bot2_del.append(i)
+                                self.Bullets[j].Y = 0
+
+            for i in Bot2_del:
+                del self.Bot2Invaders[i]
+
+            if len(self.Mid1Invaders) > 0:
+                for i in range(0, len(self.Mid1Invaders)):
+                    for j in range(0, len(self.Bullets)):
+                        if self.Bullets[j].X >= self.Mid1Invaders[i].X and self.Bullets[j].X <= self.Mid1Invaders[i].X + 24:
+                            if self.Bullets[j].Y >= self.Mid1Invaders[i].Y and self.Bullets[j].Y <= self.Mid1Invaders[i].Y + 24:
+                                Mid1_del.append(i)
+                                self.Bullets[j].Y = 0
+
+            for i in Mid1_del:
+                del self.Mid1Invaders[i]
+
+            if len(self.Mid2Invaders) > 0:
+                for i in range(0, len(self.Mid2Invaders)):
+                    for j in range(0, len(self.Bullets)):
+                        if self.Bullets[j].X >= self.Mid2Invaders[i].X and self.Bullets[j].X <= self.Mid2Invaders[i].X + 24:
+                            if self.Bullets[j].Y >= self.Mid2Invaders[i].Y and self.Bullets[j].Y <= self.Mid2Invaders[i].Y + 24:
+                                Mid2_del.append(i)
+                                self.Bullets[j].Y = 0
+
+            for i in Mid2_del:
+                del self.Mid2Invaders[i]
+
+            if len(self.TopInvaders) > 0:
+                for i in range(0, len(self.TopInvaders)):
+                    for j in range(0, len(self.Bullets)):
+                        if self.Bullets[j].X >= self.TopInvaders[i].X and self.Bullets[j].X <= self.TopInvaders[i].X + 24:
+                            if self.Bullets[j].Y >= self.TopInvaders[i].Y and self.Bullets[j].Y <= self.TopInvaders[i].Y + 24:
+                                Top_del.append(i)
+                                self.Bullets[j].Y = 0
+
+            for i in Top_del:
+                del self.TopInvaders[i]      
 
             
 
@@ -178,8 +284,9 @@ class Game:
             self.moveBullets()
             self.swapInvaderSprite()
             self.drawInvaders()
-            self.drawPlayer()            
+            self.drawPlayer()                        
             self.checkGameOver()
+            self.checkCollision()
             pygame.display.update()
             self.FPS_CLOCK.tick(self.FPS_RATE)
         
