@@ -1,5 +1,7 @@
 import pygame, sys
 from pygame.locals import *
+from tkinter import *
+from tkinter import messagebox
 from Player import Player
 from Invader import Invader
 
@@ -104,8 +106,33 @@ class Game:
                 self.Mid1Invaders[i].changeSprite()
                 self.Mid2Invaders[i].changeSprite()
                 self.TopInvaders[i].changeSprite()
-                
+
             self.SpriteSwapCounter = 0  
+
+    def checkGameOver(self):
+        
+
+        for i in range(0, 9):
+            if(self.Bot1Invaders[i].Y > 550 or
+               self.Bot2Invaders[i].Y > 550 or
+               self.Mid1Invaders[i].Y > 550 or
+               self.Mid2Invaders[i].Y > 550 or
+               self.TopInvaders[i].Y > 550):
+               invadersLeft = len(self.Bot1Invaders) + len(self.Bot2Invaders) + len(self.Mid1Invaders) + len(self.Mid2Invaders) + len(self.TopInvaders)
+               del self.Bot1Invaders[:]
+               del self.Bot2Invaders[:]
+               del self.Mid1Invaders[:]
+               del self.Mid2Invaders[:]
+               del self.TopInvaders[:]
+               self.MoveRefX = 400
+               Tk().wm_withdraw()
+               messagebox.showinfo('Game Over', 'GAME OVER!!!\nInvaders Left: ' + str(invadersLeft) + '\nBullets fired: ')
+               self.setupInvaders()
+
+
+        
+
+            
 
 
     #Starts the game loop
@@ -131,6 +158,7 @@ class Game:
             self.swapInvaderSprite()
             self.drawInvaders()
             self.drawPlayer()
+            self.checkGameOver()
             pygame.display.update()
             self.FPS_CLOCK.tick(self.FPS_RATE)
         
