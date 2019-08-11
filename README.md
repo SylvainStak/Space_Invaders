@@ -1,7 +1,7 @@
 # Space Invaders
 This is a simplified version of Space Invaders written in Python using the PyGame module
 
-![Alt text](../../assets/desc_img.png?raw=true "desc_img")
+![desc img](https://raw.githubusercontent.com/SylvainStak/Space_Invaders/assets/desc_img.png)
 
 # Requirements
 To be able to run this you need Python 3.2 or newer and PyGame 1.9.6 or newer
