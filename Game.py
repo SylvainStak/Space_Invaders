@@ -12,7 +12,10 @@ class Game:
         self.FPS_RATE = fps                
         self.INVADERS_SPEED = invaders_speed
         self.BULLET_SPEED = bullet_speed
-        self.SpriteSwapRef = 0
+        self.MoveRefX = 400
+        self.MoveRefSpeed = invaders_speed
+        self.SpriteSwapCounter = 0
+        self.SpriteSwapCounterJump = invaders_speed
         self.Bot1Invaders = []
         self.Bot2Invaders = []
         self.Mid1Invaders = []
@@ -65,6 +68,24 @@ class Game:
             self.DISPLAYSURF.blit(self.TopInvaders[i].actual_sprite, (self.TopInvaders[i].X, self.TopInvaders[i].Y))
     
     
+    def moveInvaders(self):
+        self.MoveRefX += self.MoveRefSpeed        
+
+        for i in range(0, 9):
+            self.Bot1Invaders[i].move(self.MoveRefX)
+            self.Bot2Invaders[i].move(self.MoveRefX)
+            self.Mid1Invaders[i].move(self.MoveRefX)
+            self.Mid2Invaders[i].move(self.MoveRefX)
+            self.TopInvaders[i].move(self.MoveRefX)
+
+        if self.MoveRefX > 600:
+            self.MoveRefX = 600
+            self.MoveRefSpeed = -self.MoveRefSpeed
+        if self.MoveRefX < 200:
+            self.MoveRefX = 200
+            self.MoveRefSpeed = -self.MoveRefSpeed
+
+    
     def setupInvaders(self):
         for i in range(0, 9):
             self.Bot1Invaders.append(Invader(i*35 + 245, 190, self.sprt_bot1, self.sprt_bot2, self.INVADERS_SPEED))
@@ -73,6 +94,18 @@ class Game:
             self.Mid2Invaders.append(Invader(i*35 + 245, 100, self.sprt_mid1, self.sprt_mid2, self.INVADERS_SPEED))
             self.TopInvaders.append(Invader(i*35 + 249, 70, self.sprt_top1, self.sprt_top2, self.INVADERS_SPEED))
 
+    def swapInvaderSprite(self):
+        self.SpriteSwapCounter += self.SpriteSwapCounterJump
+
+        if self.SpriteSwapCounter == 50:             
+            for i in range(0, 9):
+                self.Bot1Invaders[i].changeSprite()
+                self.Bot2Invaders[i].changeSprite()
+                self.Mid1Invaders[i].changeSprite()
+                self.Mid2Invaders[i].changeSprite()
+                self.TopInvaders[i].changeSprite()
+                
+            self.SpriteSwapCounter = 0  
 
 
     #Starts the game loop
@@ -94,6 +127,8 @@ class Game:
                 self.Player.moveRight()
             
             self.DISPLAYSURF.blit(self.sprt_bgImage, (0, 0))
+            self.moveInvaders()
+            self.swapInvaderSprite()
             self.drawInvaders()
             self.drawPlayer()
             pygame.display.update()
