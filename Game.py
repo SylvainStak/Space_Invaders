@@ -9,6 +9,7 @@ class Game:
 
     def __init__(self, fps, invaders_speed, bullet_speed, player_speed):                
         pygame.init()
+        pygame.display.set_caption('Space Invaders by Sylvain Afonso')
         self.DISPLAYSURF = pygame.display.set_mode((800, 600))
         self.FPS_CLOCK = pygame.time.Clock()
         self.FPS_RATE = fps                
@@ -32,7 +33,7 @@ class Game:
             print("Could not load the sprites needed")
             pygame.quit()
             sys.exit()
-        
+        pygame.display.set_icon(self.sprt_icon)
         self.Player = Player(384, 580, self.sprt_ship, player_speed)
         self.setupInvaders()
             
