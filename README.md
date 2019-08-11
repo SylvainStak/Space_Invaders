@@ -22,7 +22,7 @@ Either win or loose, at the end of the round it will show up a small window with
 
 # TO-DO
 * Add Joystick control (I will implement this when everything is done, dont you think it would be funny to play this with a joystick?)
-* Bullets counter
+
 * Score system
-* Bullets and collisions
+* Collisions
 * Check for Wins

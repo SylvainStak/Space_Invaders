@@ -1,6 +1,6 @@
 from Game import Game
 
-g = Game(60, 10, 2, 5)
+g = Game(60, 1, 5, 5)
 
 g.StartGameLoop()
 

@@ -4,12 +4,13 @@ from tkinter import *
 from tkinter import messagebox
 from Player import Player
 from Invader import Invader
+from Bullet import Bullet
 
 class Game:
 
     def __init__(self, fps, invaders_speed, bullet_speed, player_speed):                
         pygame.init()
-        pygame.display.set_caption('Space Invaders by Sylvain Afonso')
+        pygame.display.set_caption('Space Invaders by SylvainStak')
         self.DISPLAYSURF = pygame.display.set_mode((800, 600))
         self.FPS_CLOCK = pygame.time.Clock()
         self.FPS_RATE = fps                
@@ -70,7 +71,11 @@ class Game:
             self.DISPLAYSURF.blit(self.Mid2Invaders[i].actual_sprite, (self.Mid2Invaders[i].X, self.Mid2Invaders[i].Y))
             self.DISPLAYSURF.blit(self.TopInvaders[i].actual_sprite, (self.TopInvaders[i].X, self.TopInvaders[i].Y))
     
-    
+    def drawBullets(self):
+        for i in range(0, len(self.Bullets)):
+            if self.Bullets[i].Y > 0:
+                self.DISPLAYSURF.blit(self.Bullets[i].Sprite, (self.Bullets[i].X, self.Bullets[i].Y))
+
     def moveInvaders(self):
         self.MoveRefX += self.MoveRefSpeed        
 
@@ -87,6 +92,10 @@ class Game:
         if self.MoveRefX < 200:
             self.MoveRefX = 200
             self.MoveRefSpeed = -self.MoveRefSpeed
+    
+    def moveBullets(self):
+        for i in self.Bullets:
+            i.move()
 
     
     def setupInvaders(self):
@@ -111,8 +120,6 @@ class Game:
             self.SpriteSwapCounter = 0  
 
     def checkGameOver(self):
-        
-
         for i in range(0, 9):
             if(self.Bot1Invaders[i].Y > 550 or
                self.Bot2Invaders[i].Y > 550 or
@@ -127,8 +134,9 @@ class Game:
                del self.TopInvaders[:]
                self.MoveRefX = 400
                Tk().wm_withdraw()
-               messagebox.showinfo('Game Over', 'GAME OVER!!!\nInvaders Left: ' + str(invadersLeft) + '\nBullets fired: ')
+               messagebox.showinfo('Game Over', 'GAME OVER!!!\n\nInvaders Left: ' + str(invadersLeft) + '\nBullets fired: ' + str(len(self.Bullets)))
                self.setupInvaders()
+               del self.Bullets[:]
 
 
         
@@ -145,7 +153,7 @@ class Game:
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
-            
+
             keys_pressed = pygame.key.get_pressed()
 
             if keys_pressed[pygame.K_LEFT]:
@@ -154,11 +162,23 @@ class Game:
             if keys_pressed[pygame.K_RIGHT]:
                 self.Player.moveRight()
             
+            if keys_pressed[pygame.K_x]:
+                allowed = True
+                for i in self.Bullets:
+                    if i.Y > 75:
+                        allowed = False
+                
+                if allowed == True:
+                    self.Bullets.append(Bullet(self.Player.X + 16, self.Player.Y, self.sprt_bullet, self.BULLET_SPEED))
+       
+            
             self.DISPLAYSURF.blit(self.sprt_bgImage, (0, 0))
+            self.drawBullets()
             self.moveInvaders()
+            self.moveBullets()
             self.swapInvaderSprite()
             self.drawInvaders()
-            self.drawPlayer()
+            self.drawPlayer()            
             self.checkGameOver()
             pygame.display.update()
             self.FPS_CLOCK.tick(self.FPS_RATE)
