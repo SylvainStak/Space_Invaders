@@ -1,6 +1,3 @@
-# [GAME NOT COMPLETED YET]
-* When the TO-DO List is empty then I will delete this warning as the game will be completed
-
 # Space Invaders
 This is a simplified version of Space Invaders written in Python using the PyGame module
 
