@@ -23,7 +23,7 @@ Either win or loose, at the end of the round it will show up a small window with
 
 # Change parameters
 
-You can also change game parameters by modifying the values of config.py
+You can also change game parameters by modifying the values in config.py
 
 # TO-DO
 * Add Joystick control
