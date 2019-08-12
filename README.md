@@ -23,5 +23,4 @@ Either win or loose, at the end of the round it will show up a small window with
 
 # TO-DO
 * Add Joystick control
-* Add Sounds
 * Set a config module to easily modify game properties

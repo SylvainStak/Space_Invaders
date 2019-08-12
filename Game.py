@@ -9,6 +9,7 @@ from Bullet import Bullet
 class Game:
 
     def __init__(self, fps, invaders_speed, bullet_speed, player_speed):                
+        pygame.mixer.pre_init(44100, -16, 1, 512)
         pygame.init()
         pygame.display.set_caption('Space Invaders by SylvainStak')
         self.DISPLAYSURF = pygame.display.set_mode((800, 600))
@@ -28,7 +29,7 @@ class Game:
         self.Bullets = []      
 
         
-        if self.loadSprites() == True:
+        if self.loadSprites() == True and self.loadSounds() == True:
             self.DISPLAYSURF.blit(self.sprt_bgImage, (0, 0))
         else:
             print("Could not load the sprites needed")
@@ -59,6 +60,18 @@ class Game:
             statusFlag = False
         
         return statusFlag
+
+    def loadSounds(self):
+        statusFlag = True
+        try:
+            self.sound_game_over = pygame.mixer.Sound("assets/audio/game_over.wav")            
+            self.sound_win = pygame.mixer.Sound("assets/audio/win.wav")
+            self.sound_shoot = pygame.mixer.Sound("assets/audio/shoot.wav")
+        except: 
+            statusFlag = False
+
+        return statusFlag
+    
 
     def drawPlayer(self):
         self.DISPLAYSURF.blit(self.Player.Sprite, (self.Player.X, self.Player.Y))
@@ -151,7 +164,8 @@ class Game:
             len(self.Mid1Invaders) == 0 and
             len(self.Mid2Invaders) == 0 and
             len(self.TopInvaders) == 0):           
-
+            
+            pygame.mixer.Sound.play(self.sound_win)
             Tk().wm_withdraw()
             messagebox.showinfo('You Win', 'YOU WIN!!!\nBullets fired: ' + str(len(self.Bullets)))
             del self.Bullets[:]
@@ -193,6 +207,7 @@ class Game:
            del self.Mid2Invaders[:]
            del self.TopInvaders[:]
            self.MoveRefX = 400
+           pygame.mixer.Sound.play(self.sound_game_over)
            Tk().wm_withdraw()
            messagebox.showinfo('Game Over', 'GAME OVER!!!\n\nInvaders Left: ' + str(invadersLeft) + '\nBullets fired: ' + str(len(self.Bullets)))
            self.setupInvaders()
@@ -290,6 +305,7 @@ class Game:
                         allowed = False
                 
                 if allowed == True:
+                    pygame.mixer.Sound.play(self.sound_shoot)
                     self.Bullets.append(Bullet(self.Player.X + 16, self.Player.Y, self.sprt_bullet, self.BULLET_SPEED))
        
             
