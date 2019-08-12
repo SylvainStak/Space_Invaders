@@ -27,3 +27,5 @@ You can also change game parameters by modifying the values in config.py
 
 # TO-DO
 * Add Joystick control
+* Add background music and ON/OFF button for music & sounds
+* Add score banner
