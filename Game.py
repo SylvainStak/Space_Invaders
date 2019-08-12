@@ -67,6 +67,7 @@ class Game:
             self.sound_game_over = pygame.mixer.Sound("assets/audio/game_over.wav")            
             self.sound_win = pygame.mixer.Sound("assets/audio/win.wav")
             self.sound_shoot = pygame.mixer.Sound("assets/audio/shoot.wav")
+            self.sound_invader_kill = pygame.mixer.Sound("assets/audio/invader_kill.wav")
         except: 
             statusFlag = False
 
@@ -232,6 +233,7 @@ class Game:
 
             for i in Bot1_del:
                 del self.Bot1Invaders[i]
+                pygame.mixer.Sound.play(self.sound_invader_kill)
 
             if len(self.Bot2Invaders) > 0:
                 for i in range(0, len(self.Bot2Invaders)):
@@ -243,6 +245,7 @@ class Game:
 
             for i in Bot2_del:
                 del self.Bot2Invaders[i]
+                pygame.mixer.Sound.play(self.sound_invader_kill)
 
             if len(self.Mid1Invaders) > 0:
                 for i in range(0, len(self.Mid1Invaders)):
@@ -254,6 +257,7 @@ class Game:
 
             for i in Mid1_del:
                 del self.Mid1Invaders[i]
+                pygame.mixer.Sound.play(self.sound_invader_kill)
 
             if len(self.Mid2Invaders) > 0:
                 for i in range(0, len(self.Mid2Invaders)):
@@ -265,6 +269,7 @@ class Game:
 
             for i in Mid2_del:
                 del self.Mid2Invaders[i]
+                pygame.mixer.Sound.play(self.sound_invader_kill)
 
             if len(self.TopInvaders) > 0:
                 for i in range(0, len(self.TopInvaders)):
@@ -276,6 +281,7 @@ class Game:
 
             for i in Top_del:
                 del self.TopInvaders[i]      
+                pygame.mixer.Sound.play(self.sound_invader_kill)
 
             
 
