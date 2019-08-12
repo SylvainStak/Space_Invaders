@@ -21,6 +21,9 @@ Once you enter the folder of the game, type: "<strong>python main.py</strong>", 
 
 Either win or loose, at the end of the round it will show up a small window with the final results "Win" or "Loose" and the number of bullets fired in that particular round
 
+# Change parameters
+
+You can also change game parameters by modifying the values of config.py
+
 # TO-DO
 * Add Joystick control
-* Set a config module to easily modify game properties
